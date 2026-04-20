@@ -37,7 +37,7 @@ export interface AppState {
 
 export const useStore = create<AppState>((set) => ({
   colorTheme: "default",
-  glowIntensity: 1.0,
+  glowIntensity: 0.1,
   particleCount: 50,
   isDragging: false,
   zoomLevel: 8,
