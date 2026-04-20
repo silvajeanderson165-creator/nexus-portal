@@ -85,7 +85,7 @@ export default function ExploreSection() {
     <section
       id="explore"
       ref={sectionRef}
-      className="relative z-10 min-h-screen flex flex-col justify-center py-20 md:py-[12vh] px-5 md:px-[5vw]"
+      className="section-backdrop relative z-10 min-h-screen flex flex-col justify-center py-20 md:py-[12vh] px-5 md:px-[5vw]"
     >
       <div ref={titleRef} className="mb-10 md:mb-16 opacity-0">
         <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-white/50 mb-3">

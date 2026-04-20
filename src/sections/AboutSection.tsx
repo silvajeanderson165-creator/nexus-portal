@@ -76,7 +76,7 @@ export default function AboutSection() {
     <section
       id="about"
       ref={sectionRef}
-      className="relative z-10 min-h-[60vh] py-20 md:py-[120px] px-5 md:px-[5vw] flex items-center justify-center"
+      className="section-backdrop relative z-10 min-h-[60vh] py-20 md:py-[120px] px-5 md:px-[5vw] flex items-center justify-center"
     >
       <div className="max-w-[700px] text-center px-1">
         <div ref={titleRef} className="mb-10 opacity-0">

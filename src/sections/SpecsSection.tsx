@@ -99,7 +99,7 @@ export default function SpecsSection() {
     <section
       id="specs"
       ref={sectionRef}
-      className="relative z-10 min-h-screen py-20 md:py-[120px] px-5 md:px-[5vw]"
+      className="section-backdrop relative z-10 min-h-screen py-20 md:py-[120px] px-5 md:px-[5vw]"
     >
       <div className="max-w-[800px] mx-auto">
         <div ref={titleRef} className="mb-10 md:mb-12 opacity-0">
