@@ -18,7 +18,7 @@ export default function LoadingScreen() {
     if (!ctx) return;
 
     let animId: number;
-    let particles: Array<{
+    const particles: Array<{
       angle: number;
       radius: number;
       speed: number;

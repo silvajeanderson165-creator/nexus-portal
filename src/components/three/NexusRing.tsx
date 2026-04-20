@@ -1,5 +1,6 @@
-import { useRef, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
+import { Float } from "@react-three/drei";
 import * as THREE from "three";
 import { useStore } from "@/store/useStore";
 
@@ -202,62 +203,48 @@ const fragmentShader = `
 export default function NexusRing() {
   const meshRef = useRef<THREE.Mesh>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
-  const pulseRef = useRef({ value: 0 });
+  const pulseRef = useRef(0);
 
   const colorTheme = useStore((s) => s.colorTheme);
   const glowIntensity = useStore((s) => s.glowIntensity);
   const pulseTrigger = useStore((s) => s.pulseTrigger);
   const reduceMotion = useStore((s) => s.reduceMotion);
 
-  const uniforms = useMemo(
-    () => ({
+  const uniforms = useMemo(() => {
+    return {
       uTime: { value: 0 },
-      uColor1: { value: new THREE.Color("#60a5fa") },
-      uColor2: { value: new THREE.Color("#a78bfa") },
-      uColor3: { value: new THREE.Color("#22d3ee") },
+      uColor1: { value: new THREE.Color() },
+      uColor2: { value: new THREE.Color() },
+      uColor3: { value: new THREE.Color() },
       uHueShift: { value: 0 },
-      uGlowIntensity: { value: 1.0 },
+      uGlowIntensity: { value: 0 },
       uPulse: { value: 0 },
       uMouse: { value: new THREE.Vector2(0, 0) },
-    }),
-    []
-  );
+    };
+  }, []);
 
-  // Update colors when theme changes
-  useMemo(() => {
+  useEffect(() => {
     const theme = COLOR_THEMES[colorTheme] || COLOR_THEMES.default;
     uniforms.uColor1.value.copy(theme.c1);
     uniforms.uColor2.value.copy(theme.c2);
     uniforms.uColor3.value.copy(theme.c3);
     uniforms.uHueShift.value = theme.hue;
-  }, [colorTheme, uniforms]);
-
-  // Update glow intensity
-  useMemo(() => {
     uniforms.uGlowIntensity.value = glowIntensity;
-  }, [glowIntensity, uniforms]);
+  }, [colorTheme, glowIntensity, uniforms]);
 
   // Pulse animation
-  useMemo(() => {
+  useEffect(() => {
     if (pulseTrigger > 0) {
-      pulseRef.current.value = 1.0;
-      const startTime = Date.now();
-      const duration = 1500;
-      const animate = () => {
-        const elapsed = Date.now() - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        pulseRef.current.value = 1.0 - Math.pow(progress, 2);
-        if (progress < 1) requestAnimationFrame(animate);
-      };
-      requestAnimationFrame(animate);
+      pulseRef.current = 1.0;
     }
   }, [pulseTrigger]);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     if (!meshRef.current || !materialRef.current) return;
 
     materialRef.current.uniforms.uTime.value = state.clock.elapsedTime;
-    materialRef.current.uniforms.uPulse.value = pulseRef.current.value;
+    pulseRef.current = Math.max(0, pulseRef.current - delta * 0.9);
+    materialRef.current.uniforms.uPulse.value = pulseRef.current;
     
     // Suaviza a adoção do mouse
     const tx = state.pointer.x;
@@ -267,20 +254,26 @@ export default function NexusRing() {
 
     if (!reduceMotion) {
       // Reage à posição do mouse fisicamente!
-      meshRef.current.rotation.y += (0.15 + materialRef.current.uniforms.uMouse.value.x * 0.1) * state.clock.getDelta() * 10;
-      meshRef.current.rotation.x += 0.005 + materialRef.current.uniforms.uMouse.value.y * 0.005;
+      meshRef.current.rotation.y += (0.15 + materialRef.current.uniforms.uMouse.value.x * 0.1) * delta * 10;
+      meshRef.current.rotation.x += (0.005 + materialRef.current.uniforms.uMouse.value.y * 0.005) * delta * 60;
+
+      // Parallax: O objeto segue sutilmente o cursor
+      meshRef.current.position.x = THREE.MathUtils.lerp(meshRef.current.position.x, tx * 1.5, 0.05);
+      meshRef.current.position.y = THREE.MathUtils.lerp(meshRef.current.position.y, ty * 1.5, 0.05);
     }
   });
 
   return (
-    <mesh ref={meshRef}>
-      <torusKnotGeometry args={[2, 0.5, 128, 32, 2, 3]} />
-      <shaderMaterial
-        ref={materialRef}
-        vertexShader={vertexShader}
-        fragmentShader={fragmentShader}
-        uniforms={uniforms}
-      />
-    </mesh>
+    <Float speed={2} rotationIntensity={0.5} floatIntensity={1.5} floatingRange={[-0.3, 0.3]}>
+      <mesh ref={meshRef}>
+        <torusKnotGeometry args={[2, 0.5, 128, 32, 2, 3]} />
+        <shaderMaterial
+          ref={materialRef}
+          vertexShader={vertexShader}
+          fragmentShader={fragmentShader}
+          uniforms={uniforms}
+        />
+      </mesh>
+    </Float>
   );
 }

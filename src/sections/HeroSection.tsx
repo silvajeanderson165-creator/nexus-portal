@@ -83,7 +83,6 @@ export default function HeroSection() {
     <section
       ref={containerRef}
       className="relative z-10 h-screen flex items-center md:items-end pb-[10vh] md:pb-[15vh] pointer-events-none px-5 md:px-0"
-      style={{ paddingLeft: undefined }}
     >
       <div className="max-w-lg w-full md:pl-[5vw]">
         <p

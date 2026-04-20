@@ -7,7 +7,7 @@ export default function Footer() {
             NEXUS PORTAL
           </span>
           <span className="text-xs text-white/35">
-            © 2025 Nexus Project
+            © 2026 Nexus Project
           </span>
         </div>
       </div>

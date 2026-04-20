@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback, useMemo } from "react";
+import { useRef, useEffect, useCallback } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
@@ -15,6 +15,7 @@ export default function SceneContent() {
   const { camera, gl, scene, size } = useThree();
   const groupRef = useRef<THREE.Group>(null);
   const composerRef = useRef<EffectComposer | null>(null);
+  const bloomPassRef = useRef<UnrealBloomPass | null>(null);
 
   const isDragging = useRef(false);
   const previousMouse = useRef({ x: 0, y: 0 });
@@ -29,11 +30,11 @@ export default function SceneContent() {
   const setIsDragging = useStore((s) => s.setIsDragging);
 
   // Setup post-processing
-  const composer = useMemo(() => {
+  useEffect(() => {
     const renderPass = new RenderPass(scene, camera);
     const bloomPass = new UnrealBloomPass(
       new THREE.Vector2(size.width, size.height),
-      glowIntensity * 1.5,
+      useStore.getState().glowIntensity * 1.5,
       0.8,
       0.2
     );
@@ -43,18 +44,20 @@ export default function SceneContent() {
     comp.addPass(renderPass);
     comp.addPass(bloomPass);
     comp.addPass(outputPass);
-    return comp;
-  }, [gl, scene, camera, size.width, size.height]);
+    composerRef.current = comp;
+    bloomPassRef.current = bloomPass;
 
-  useEffect(() => {
-    composerRef.current = composer;
-  }, [composer]);
+    return () => {
+      comp.dispose();
+      composerRef.current = null;
+      bloomPassRef.current = null;
+    };
+  }, [gl, scene, camera, size.width, size.height]);
 
   // Update bloom intensity
   useEffect(() => {
-    if (composerRef.current) {
-      const bloomPass = composerRef.current.passes[1] as UnrealBloomPass;
-      bloomPass.strength = glowIntensity * 1.5;
+    if (bloomPassRef.current) {
+      bloomPassRef.current.strength = glowIntensity * 1.5;
     }
   }, [glowIntensity]);
 
@@ -95,7 +98,6 @@ export default function SceneContent() {
 
   const onWheel = useCallback(
     (e: WheelEvent) => {
-      e.preventDefault();
       const newRadius = THREE.MathUtils.clamp(
         targetSpherical.current.radius + e.deltaY * 0.01,
         4,

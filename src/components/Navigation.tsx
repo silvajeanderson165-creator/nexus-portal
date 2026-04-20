@@ -1,5 +1,6 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import gsap from "gsap";
+import Magnetic from "@/components/ui-custom/Magnetic";
 import { useAudio } from "@/hooks/useAudio";
 
 const NAV_LINKS = [
@@ -31,7 +32,7 @@ export default function Navigation() {
     );
   }, []);
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, target: string) => {
+  const handleClick = (e: MouseEvent<HTMLAnchorElement>, target: string) => {
     e.preventDefault();
     setMenuOpen(false);
     playClick();
@@ -50,29 +51,32 @@ export default function Navigation() {
           : "bg-transparent"
       }`}
     >
-      <a
-        href="#"
-        onClick={(e) => {
-          e.preventDefault();
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }}
-        className="font-mono text-sm font-bold uppercase tracking-[0.1em] text-white hover:text-violet-400 transition-colors"
-      >
-        NEXUS PORTAL
-      </a>
+      <Magnetic>
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          className="font-mono text-sm font-bold uppercase tracking-[0.1em] text-white hover:text-violet-400 transition-colors cursor-pointer"
+        >
+          NEXUS PORTAL
+        </a>
+      </Magnetic>
 
       {/* Desktop menu */}
       <div className="hidden md:flex items-center gap-8">
         {NAV_LINKS.map((link) => (
-          <a
-            key={link.label}
-            href={link.target}
-            onClick={(e) => handleClick(e, link.target)}
-            className="relative text-sm font-medium text-white/60 hover:text-white transition-colors duration-300 group"
-          >
-            {link.label}
-            <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-violet-400 transition-all duration-300 group-hover:w-full" />
-          </a>
+          <Magnetic key={link.label}>
+            <a
+              href={link.target}
+              onClick={(e) => handleClick(e, link.target)}
+              className="relative text-sm font-medium text-white/60 hover:text-white transition-colors duration-300 group cursor-pointer"
+            >
+              {link.label}
+              <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-violet-400 transition-all duration-300 group-hover:w-full" />
+            </a>
+          </Magnetic>
         ))}
       </div>
 

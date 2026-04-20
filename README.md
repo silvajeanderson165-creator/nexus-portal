@@ -1,73 +1,71 @@
-# React + TypeScript + Vite
+# NEXUS PORTAL
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Experiencia web interativa com cena 3D em tempo real, animações cinematograficas e personalizacao visual do artefato Nexus.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React 19 + TypeScript
+- Vite 7
+- Three.js + @react-three/fiber + @react-three/drei
+- GSAP + ScrollTrigger
+- Zustand
+- Tailwind CSS
 
-## React Compiler
+## Funcionalidades
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Cena 3D em background fixo com controle de orbita e zoom
+- Shader custom no anel Nexus
+- Campo de particulas e estrelas
+- Loading screen animado
+- Personalizacao em tempo real (tema de cor, brilho e quantidade de particulas)
+- Efeitos de audio para hover/click
+- Scroll suave com Lenis
 
-## Expanding the ESLint configuration
+## Estrutura de Pastas
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```text
+src/
+  components/
+    three/          Componentes da cena 3D
+    ui/             Componentes base (shadcn/radix)
+    ui-custom/      Componentes visuais customizados
+  sections/         Secoes da pagina
+  hooks/            Hooks customizados
+  store/            Estado global com Zustand
+  pages/            Paginas (quando aplicavel)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Requisitos
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Node.js 20+
+- npm 10+
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Como Rodar
+
+```bash
+npm install
+npm run dev
 ```
+
+O app fica disponivel em http://localhost:3000/.
+
+## Scripts
+
+- npm run dev: inicia servidor de desenvolvimento
+- npm run build: gera build de producao
+- npm run preview: sobe preview da build
+- npm run lint: executa o lint
+
+## Qualidade
+
+Fluxo recomendado antes de publicar:
+
+```bash
+npm run lint
+npm run build
+```
+
+## Observacoes
+
+- Componentes em src/components/ui sao baseados em biblioteca de UI e usam regras de lint ajustadas para evitar falsos positivos.
+- O controle de estado da cena 3D e feito via Zustand para integrar UI e canvas.

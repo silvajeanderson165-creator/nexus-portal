@@ -3,6 +3,11 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useStore } from "@/store/useStore";
 
+function pseudoRandom(seed: number) {
+  const x = Math.sin(seed * 12.9898) * 43758.5453;
+  return x - Math.floor(x);
+}
+
 export default function StarField() {
   const pointsRef = useRef<THREE.Points>(null);
   const reduceMotion = useStore((s) => s.reduceMotion);
@@ -13,14 +18,19 @@ export default function StarField() {
     const ops = new Float32Array(count);
 
     for (let i = 0; i < count; i++) {
-      const r = 30 + Math.random() * 40;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
+      const r1 = pseudoRandom(i + 1);
+      const r2 = pseudoRandom(i + 101);
+      const r3 = pseudoRandom(i + 1001);
+      const r4 = pseudoRandom(i + 10001);
+
+      const r = 30 + r1 * 40;
+      const theta = r2 * Math.PI * 2;
+      const phi = Math.acos(2 * r3 - 1);
 
       pos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
       pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
       pos[i * 3 + 2] = r * Math.cos(phi);
-      ops[i] = 0.3 + Math.random() * 0.5;
+      ops[i] = 0.3 + r4 * 0.5;
     }
 
     const geo = new THREE.BufferGeometry();

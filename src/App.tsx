@@ -1,5 +1,6 @@
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
+import Lenis from "lenis";
 import LoadingScreen from "@/components/LoadingScreen";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -40,6 +41,29 @@ function ThreeCanvas() {
 
 export default function App() {
   const isLoading = useStore((s) => s.isLoading);
+
+  useEffect(() => {
+    // Inicializa o Lenis para Scroll Suave (Pilar de Design Premium)
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      lerp: 0.1,
+      smoothWheel: true,
+    });
+
+    let animId: number;
+    function raf(time: number) {
+      lenis.raf(time);
+      animId = requestAnimationFrame(raf);
+    }
+
+    animId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(animId);
+      lenis.destroy();
+    };
+  }, []);
 
   return (
     <div

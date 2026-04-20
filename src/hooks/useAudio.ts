@@ -6,7 +6,9 @@ class AudioSynthesizer {
 
   init() {
     if (this.initialized) return;
-    const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+    const AudioContextClass =
+      window.AudioContext ||
+      (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
     if (!AudioContextClass) return;
     this.ctx = new AudioContextClass();
     this.initialized = true;
@@ -33,7 +35,9 @@ class AudioSynthesizer {
       
       osc.start();
       osc.stop(this.ctx.currentTime + 0.2);
-    } catch(e) {}
+    } catch {
+      return;
+    }
   }
 
   playClick() {
@@ -56,7 +60,9 @@ class AudioSynthesizer {
 
       osc.start();
       osc.stop(this.ctx.currentTime + 0.1);
-    } catch(e) {}
+    } catch {
+      return;
+    }
   }
 }
 
