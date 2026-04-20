@@ -65,18 +65,18 @@ export default function CustomizeSection() {
     <section
       id="customize"
       ref={sectionRef}
-      className="relative z-10 min-h-screen py-[120px] px-[5vw] flex items-center"
+      className="relative z-10 min-h-screen py-20 md:py-[120px] px-5 md:px-[5vw] flex items-center"
     >
-      <div className="max-w-[1200px] mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <div className="max-w-[1200px] mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-center">
         {/* Left: Text */}
         <div ref={textRef} className="opacity-0">
           <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-white/50 mb-3">
             03 — Personalizar
           </p>
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-tight mb-6">
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-4 md:mb-6">
             <DecodeText text="Deixe do Seu Jeito" />
           </h2>
-          <p className="text-base text-white/75 leading-relaxed max-w-md">
+          <p className="text-sm md:text-base text-white/75 leading-relaxed max-w-md">
             Ajuste a aparência do Anel Nexus em tempo real. Cada mudança é
             refletida instantaneamente no modelo 3D.
           </p>
@@ -85,7 +85,7 @@ export default function CustomizeSection() {
         {/* Right: Control Panel */}
         <div
           ref={panelRef}
-          className="bg-black/60 backdrop-blur-xl border border-white/10 rounded-xl p-8 max-w-[380px] justify-self-center lg:justify-self-end opacity-0"
+          className="bg-black/60 backdrop-blur-xl border border-white/10 rounded-xl p-6 md:p-8 w-full max-w-[380px] justify-self-center lg:justify-self-end opacity-0"
         >
           <div className="flex flex-col gap-8">
             <ColorSwatch

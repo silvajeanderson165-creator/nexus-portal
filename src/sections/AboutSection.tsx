@@ -76,21 +76,21 @@ export default function AboutSection() {
     <section
       id="about"
       ref={sectionRef}
-      className="relative z-10 min-h-[60vh] py-[120px] px-[5vw] flex items-center justify-center"
+      className="relative z-10 min-h-[60vh] py-20 md:py-[120px] px-5 md:px-[5vw] flex items-center justify-center"
     >
-      <div className="max-w-[700px] text-center">
+      <div className="max-w-[700px] text-center px-1">
         <div ref={titleRef} className="mb-10 opacity-0">
           <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-white/50 mb-3">
             04 — Sobre
           </p>
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-tight">
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight">
             <DecodeText text="A Descoberta" />
           </h2>
         </div>
 
         <p
           ref={p1Ref}
-          className="text-base md:text-lg text-white/75 leading-[1.8] mb-6 opacity-0"
+          className="text-sm md:text-base lg:text-lg text-white/75 leading-[1.8] mb-6 opacity-0"
         >
           O Anel Nexus foi descoberto em 2024 durante um levantamento do espaço profundo do 
           sistema Kepler-442b. O artefato parece existir simultaneamente em
@@ -103,7 +103,7 @@ export default function AboutSection() {
 
         <p
           ref={p2Ref}
-          className="text-base md:text-lg text-white/75 leading-[1.8] mb-10 opacity-0"
+          className="text-sm md:text-base lg:text-lg text-white/75 leading-[1.8] mb-8 md:mb-10 opacity-0"
         >
           Esta réplica digital permite que exploradores da Terra vivenciem as
           propriedades misteriosas do artefato em primeira mão. Cada interação é

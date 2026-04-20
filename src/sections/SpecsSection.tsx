@@ -99,14 +99,14 @@ export default function SpecsSection() {
     <section
       id="specs"
       ref={sectionRef}
-      className="relative z-10 min-h-screen py-[120px] px-[5vw]"
+      className="relative z-10 min-h-screen py-20 md:py-[120px] px-5 md:px-[5vw]"
     >
       <div className="max-w-[800px] mx-auto">
-        <div ref={titleRef} className="mb-12 opacity-0">
+        <div ref={titleRef} className="mb-10 md:mb-12 opacity-0">
           <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-white/50 mb-3">
             02 — Especificações
           </p>
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-tight">
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight">
             <DecodeText text="Especificações Técnicas" />
           </h2>
         </div>

@@ -85,18 +85,18 @@ export default function ExploreSection() {
     <section
       id="explore"
       ref={sectionRef}
-      className="relative z-10 min-h-screen flex flex-col justify-center py-[12vh] px-[5vw]"
+      className="relative z-10 min-h-screen flex flex-col justify-center py-20 md:py-[12vh] px-5 md:px-[5vw]"
     >
-      <div ref={titleRef} className="mb-16 opacity-0">
+      <div ref={titleRef} className="mb-10 md:mb-16 opacity-0">
         <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-white/50 mb-3">
           01 — Explorar
         </p>
-        <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-tight">
+        <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight">
           <DecodeText text="Cada Ângulo Conta uma História" />
         </h2>
       </div>
 
-      <div className="flex flex-col md:flex-row items-start justify-between gap-8">
+      <div className="flex flex-col md:flex-row items-start justify-between gap-6 md:gap-8">
         <div ref={leftCardRef} className="opacity-0">
           <InfoCard
             label="Velocidade de Rotação"
@@ -115,7 +115,7 @@ export default function ExploreSection() {
 
       <p
         ref={bottomTipRef}
-        className="text-center text-sm text-white/50 mt-20 opacity-0"
+        className="text-center text-sm text-white/50 mt-12 md:mt-20 opacity-0 hidden md:block"
       >
         Use o mouse para orbitar o artefato
       </p>

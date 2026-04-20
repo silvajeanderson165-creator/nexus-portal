@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import gsap from "gsap";
+import { useAudio } from "@/hooks/useAudio";
 
 const NAV_LINKS = [
   { label: "Explorar", target: "#explore" },
@@ -10,7 +11,9 @@ const NAV_LINKS = [
 
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
+  const { playClick } = useAudio();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,6 +33,8 @@ export default function Navigation() {
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, target: string) => {
     e.preventDefault();
+    setMenuOpen(false);
+    playClick();
     const el = document.querySelector(target);
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
@@ -39,9 +44,9 @@ export default function Navigation() {
   return (
     <nav
       ref={navRef}
-      className={`fixed top-0 left-0 right-0 z-50 h-16 flex items-center justify-between px-6 md:px-10 transition-all duration-500 ${
-        scrolled
-          ? "bg-[rgba(5,5,5,0.9)] backdrop-blur-xl border-b border-white/5"
+      className={`fixed top-0 left-0 right-0 z-50 h-16 flex items-center justify-between px-5 md:px-10 transition-all duration-500 ${
+        scrolled || menuOpen
+          ? "bg-[rgba(5,5,5,0.95)] backdrop-blur-xl border-b border-white/5"
           : "bg-transparent"
       }`}
     >
@@ -56,6 +61,7 @@ export default function Navigation() {
         NEXUS PORTAL
       </a>
 
+      {/* Desktop menu */}
       <div className="hidden md:flex items-center gap-8">
         {NAV_LINKS.map((link) => (
           <a
@@ -69,6 +75,35 @@ export default function Navigation() {
           </a>
         ))}
       </div>
+
+      {/* Mobile hamburger */}
+      <button
+        onClick={() => setMenuOpen(!menuOpen)}
+        className="md:hidden flex flex-col gap-[5px] p-2"
+        aria-label="Menu"
+      >
+        <span className={`block w-5 h-[2px] bg-white transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
+        <span className={`block w-5 h-[2px] bg-white transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
+        <span className={`block w-5 h-[2px] bg-white transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-[7px]" : ""}`} />
+      </button>
+
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div className="absolute top-16 left-0 right-0 bg-[rgba(5,5,5,0.97)] backdrop-blur-xl border-b border-white/5 md:hidden">
+          <div className="flex flex-col py-6 px-6 gap-5">
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link.label}
+                href={link.target}
+                onClick={(e) => handleClick(e, link.target)}
+                className="text-base font-medium text-white/70 hover:text-white transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

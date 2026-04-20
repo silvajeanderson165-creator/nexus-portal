@@ -82,17 +82,17 @@ export default function HeroSection() {
   return (
     <section
       ref={containerRef}
-      className="relative z-10 h-screen flex items-end pb-[15vh] pointer-events-none"
-      style={{ paddingLeft: "5vw" }}
+      className="relative z-10 h-screen flex items-center md:items-end pb-[10vh] md:pb-[15vh] pointer-events-none px-5 md:px-0"
+      style={{ paddingLeft: undefined }}
     >
-      <div className="max-w-lg">
+      <div className="max-w-lg w-full md:pl-[5vw]">
         <p
           ref={subtitleRef}
           className="font-mono text-xs uppercase tracking-[0.15em] text-white/60 mb-4 opacity-0"
         >
           Experiência 3D Interativa
         </p>
-        <h1 className="font-display text-5xl md:text-[80px] font-bold text-white tracking-[-0.02em] leading-[1.1] mb-6">
+        <h1 className="font-display text-4xl sm:text-5xl md:text-[80px] font-bold text-white tracking-[-0.02em] leading-[1.1] mb-4 md:mb-6">
           <span ref={titleLine1Ref} className="block opacity-0">
             Descubra o
           </span>
@@ -102,7 +102,7 @@ export default function HeroSection() {
         </h1>
         <p
           ref={descRef}
-          className="text-base text-white/70 max-w-[400px] leading-relaxed mb-8 opacity-0"
+          className="text-sm md:text-base text-white/70 max-w-[400px] leading-relaxed mb-6 md:mb-8 opacity-0"
         >
           Um artefato alienígena de origem desconhecida. Gire, personalize e 
           interaja com este objeto hiperdimensional.
@@ -123,7 +123,7 @@ export default function HeroSection() {
 
       <p
         ref={hintRef}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 font-mono text-[11px] text-white/35 uppercase tracking-wider opacity-0"
+        className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 font-mono text-[10px] md:text-[11px] text-white/35 uppercase tracking-wider opacity-0 hidden md:block"
       >
         Arraste para girar • Role para zoom
       </p>

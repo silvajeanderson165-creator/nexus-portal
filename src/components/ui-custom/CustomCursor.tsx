@@ -1,17 +1,26 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
 export default function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
   
   useEffect(() => {
-    if (!cursorRef.current) return;
+    // Detect touch / mobile
+    const checkMobile = () => {
+      setIsMobile(window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile || !cursorRef.current) return;
     const cursor = cursorRef.current;
     
-    // Configura o cursor para sumir pro padrão do browser
     document.body.style.cursor = "none";
     
-    // QuickTo para performance GSAP nativa
     const xTo = gsap.quickTo(cursor, "x", { duration: 0.15, ease: "power3" });
     const yTo = gsap.quickTo(cursor, "y", { duration: 0.15, ease: "power3" });
 
@@ -20,7 +29,6 @@ export default function CustomCursor() {
       yTo(e.clientY);
     };
     
-    // Magnético e alteração Hover
     const onMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (
@@ -55,7 +63,9 @@ export default function CustomCursor() {
       document.removeEventListener("mouseout", onMouseOut);
       document.body.style.cursor = "auto";
     };
-  }, []);
+  }, [isMobile]);
+
+  if (isMobile) return null;
 
   return (
     <div
