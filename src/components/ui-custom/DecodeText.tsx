@@ -4,10 +4,12 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const CHARS = '!<>-_\\/[]{}—=+*^?#________';
+// Caracteres mais compactos para evitar overflow no mobile
+const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%';
 
 export default function DecodeText({ text, className }: { text: string; className?: string }) {
-  const [output, setOutput] = useState('');
+  const [output, setOutput] = useState(text);
+  const [decoded, setDecoded] = useState(false);
   const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
@@ -18,6 +20,7 @@ export default function DecodeText({ text, className }: { text: string; classNam
 
     const scramble = () => {
       clearInterval(interval as number);
+      iteration = 0;
       interval = window.setInterval(() => {
         setOutput(
           text.split('')
@@ -25,12 +28,14 @@ export default function DecodeText({ text, className }: { text: string; classNam
               if (index < iteration) {
                 return text[index];
               }
+              if (text[index] === ' ') return ' ';
               return CHARS[Math.floor(Math.random() * CHARS.length)];
             })
             .join('')
         );
         if (iteration >= text.length) {
           clearInterval(interval as number);
+          setDecoded(true);
         }
         iteration += 1 / 3;
       }, 30);
@@ -54,8 +59,15 @@ export default function DecodeText({ text, className }: { text: string; classNam
   }, [text]);
 
   return (
-    <span ref={ref} className={className}>
-      {output || text.replace(/./g, '_')}
+    <span
+      ref={ref}
+      className={className}
+      style={{
+        wordBreak: 'break-word',
+        overflowWrap: 'break-word',
+      }}
+    >
+      {decoded ? text : output}
     </span>
   );
 }

@@ -18,8 +18,11 @@ export default function SceneContent() {
 
   const isDragging = useRef(false);
   const previousMouse = useRef({ x: 0, y: 0 });
-  const spherical = useRef(new THREE.Spherical(8, Math.PI / 2, 0));
-  const targetSpherical = useRef(new THREE.Spherical(8, Math.PI / 2, 0));
+
+  // Câmera mais longe no mobile para o anel caber na tela
+  const initialRadius = size.width < 768 ? 13 : 8;
+  const spherical = useRef(new THREE.Spherical(initialRadius, Math.PI / 2, 0));
+  const targetSpherical = useRef(new THREE.Spherical(initialRadius, Math.PI / 2, 0));
   const zoomLevel = useStore((s) => s.zoomLevel);
   const setZoomLevel = useStore((s) => s.setZoomLevel);
   const glowIntensity = useStore((s) => s.glowIntensity);

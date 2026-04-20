@@ -6,7 +6,7 @@ interface InfoCardProps {
 
 export default function InfoCard({ label, value, description }: InfoCardProps) {
   return (
-    <div className="glass-panel rounded-lg p-5 max-w-[260px]">
+    <div className="glass-panel rounded-lg p-5 w-full md:max-w-[260px]">
       <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-white/50 mb-1">
         {label}
       </p>
