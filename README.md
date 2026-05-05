@@ -8,6 +8,8 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![GSAP](https://img.shields.io/badge/GSAP-3-88CE02?style=for-the-badge&logo=greensock&logoColor=white)
 
+🟢 **LIVE DEMO:** [Acesse o NEXUS PORTAL Ao Vivo Aqui](https://nexus-portal-one.vercel.app)
+
 ---
 
 ## 🌌 Sobre o Projeto
